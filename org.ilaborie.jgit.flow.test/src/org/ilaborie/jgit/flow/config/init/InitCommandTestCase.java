@@ -38,6 +38,19 @@ public class InitCommandTestCase {
 	}
 
 	/**
+	 * Test init with a not clean working set.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testInitNotCleanWorkingSetAlt() throws Exception {
+		GitFlow gitFlow = TestUtils.createGitFlowRepositoryNotCleanAlt();
+
+		gitFlow.init().call();
+	}
+
+	/**
 	 * Test init with no head.
 	 * 
 	 * @throws Exception
@@ -47,7 +60,7 @@ public class InitCommandTestCase {
 	public void testInitNoHead() throws Exception {
 		Repository repo = TestUtils.createEmptyRepository();
 		GitFlow gitFlow = GitFlow.wrap(repo);
-		
+
 		gitFlow.init().call();
 	}
 

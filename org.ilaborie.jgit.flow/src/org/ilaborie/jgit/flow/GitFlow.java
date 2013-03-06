@@ -11,6 +11,7 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 import org.ilaborie.jgit.flow.feature.FeatureCheckoutCommand;
+import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
@@ -117,6 +118,15 @@ public class GitFlow {
 	 */
 	public FeatureStartCommand featureStart() {
 		return new FeatureStartCommand(this.repo);
+	}
+
+	/**
+	 * git-flow feature finish.
+	 * 
+	 * @return the feature finish command
+	 */
+	public FeatureFinishCommand featureFinish() {
+		return new FeatureFinishCommand(this.repo);
 	}
 
 	/**

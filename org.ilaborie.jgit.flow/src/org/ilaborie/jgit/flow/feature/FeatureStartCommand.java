@@ -8,7 +8,7 @@ import org.ilaborie.jgit.flow.GitFlowCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow init command
+ * The git-flow feature start command
  */
 public class FeatureStartCommand extends GitFlowCommand<Ref> {
 

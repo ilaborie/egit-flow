@@ -2,15 +2,20 @@ package org.ilaborie.jgit.flow.feature;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.IOException;
+
+import org.eclipse.jgit.api.MergeCommand;
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.Ref;
 import org.ilaborie.jgit.flow.GitFlowCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow feature checkout command
+ * The git-flow feature finish command
  */
-public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
+public class FeatureFinishCommand extends GitFlowCommand<MergeResult> {
 
 	/** The feature name */
 	private String name;
@@ -21,7 +26,7 @@ public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
 	 * @param repo
 	 *            the repository
 	 */
-	public FeatureCheckoutCommand(GitFlowRepository repo) {
+	public FeatureFinishCommand(GitFlowRepository repo) {
 		super(repo);
 	}
 
@@ -32,7 +37,7 @@ public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
 	 *            the feature name
 	 * @return the command
 	 */
-	public FeatureCheckoutCommand setName(String name) {
+	public FeatureFinishCommand setName(String name) {
 		this.name = checkNotNull(name);
 		return this;
 	}
@@ -43,18 +48,29 @@ public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
 	 * @see org.eclipse.jgit.api.GitCommand#call()
 	 */
 	@Override
-	public Ref call() throws GitAPIException {
+	public MergeResult call() throws GitAPIException {
 		checkNotNull(this.name);
 		this.requireGitFlowInitialized();
+		this.requireCleanWorkingTree();
 
 		// Branch name
 		String prefix = this.getConfig().getFeaturePrefix();
 		String branch = prefix + this.name;
 
-		// Check
-		this.requireBranchExists(branch);
+		// Checkout to develop
+		String develop = this.getConfig().getDevelopBranch();
+		this.checkoutTo(develop);
 
-		// Checkout
-		return this.checkoutTo(branch);
+		try {
+			// Merge branch to develop
+			MergeCommand mergeCmd = this.git.merge();
+			Ref featureRef = this.getRepository().getRef(branch);
+			mergeCmd.include(featureRef);
+
+			return mergeCmd.call();
+		} catch (IOException e) {
+			throw new WrongRepositoryStateException(
+					"Cannot find feature branch", e);
+		}
 	}
 }

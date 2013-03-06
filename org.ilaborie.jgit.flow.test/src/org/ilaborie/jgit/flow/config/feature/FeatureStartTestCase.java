@@ -42,6 +42,22 @@ public class FeatureStartTestCase {
 	}
 
 	/**
+	 * Test feature start
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test(expected = GitAPIException.class)
+	public void testBranchExists() throws Exception {
+		GitFlow gitFlow = TestUtils.createGitFlowRepository();
+
+		String feature = "feature_A";
+		gitFlow.featureStart().setName(feature).call();
+
+		gitFlow.featureStart().setName(feature).call();
+	}
+
+	/**
 	 * Test feature start with no branch
 	 * 
 	 * @throws Exception

@@ -17,7 +17,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 /**
- * The git-flow init command
+ * The git-flow feature list command
  */
 public class FeatureListCommand extends GitFlowCommand<List<String>> {
 

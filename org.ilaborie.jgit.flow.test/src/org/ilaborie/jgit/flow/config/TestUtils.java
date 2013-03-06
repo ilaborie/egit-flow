@@ -78,6 +78,32 @@ public final class TestUtils {
 	}
 
 	/**
+	 * Creates the git flow repository (alternate).
+	 * 
+	 * @return the folder
+	 * @throws GitAPIException
+	 *             the git api exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	public static File createGitFlowRepositoryAlt() throws GitAPIException,
+			IOException {
+		File tempDir = Files.createTempDir();
+		File repoDir = new File(tempDir, "JGit-Flow");
+		dirToPurge.add(tempDir);
+
+		Repository repository = createRepository(repoDir);
+
+		// Create a first commit
+		createFirstCommit(repoDir, repository);
+
+		// Initialize
+		GitFlow.wrap(repository).init().call();
+
+		return repoDir;
+	}
+
+	/**
 	 * Creates the repository with a commit.
 	 * 
 	 * @return the repository
@@ -134,10 +160,31 @@ public final class TestUtils {
 		createFirstCommit(tempDir, repository);
 
 		// Add a file into staging
-		Files.touch(new File(repoDir, "plop-" + System.currentTimeMillis()
-				+ "txt"));
-		Git.wrap(repository).add().addFilepattern(Constants.GITIGNORE_FILENAME)
-				.call();
+		String file = String.format("plop-%s.txt", System.currentTimeMillis());
+		Files.touch(new File(repoDir, file));
+		return GitFlow.wrap(repository);
+	}
+
+	/**
+	 * Creates the repository with a commit.
+	 * 
+	 * @return the repository
+	 * @throws GitAPIException
+	 * @throws IOException
+	 */
+	public static GitFlow createGitFlowRepositoryNotCleanAlt()
+			throws GitAPIException, IOException {
+		File tempDir = Files.createTempDir();
+		File repoDir = new File(tempDir, "JGit-Flow");
+		dirToPurge.add(tempDir);
+
+		Repository repository = createRepository(repoDir);
+		createFirstCommit(tempDir, repository);
+
+		// Add a file into staging
+		String file = String.format("plop-%s.txt", System.currentTimeMillis());
+		Files.touch(new File(repoDir, file));
+		Git.wrap(repository).add().addFilepattern(file).call();
 		return GitFlow.wrap(repository);
 	}
 
