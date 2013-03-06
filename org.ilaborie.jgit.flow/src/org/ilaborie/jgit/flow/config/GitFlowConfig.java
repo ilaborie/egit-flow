@@ -7,6 +7,35 @@ import static com.google.common.base.Strings.nullToEmpty;
  * A POJO for git-flow configuration.
  */
 public class GitFlowConfig {
+	/** The Constant CONFIG_GITFLOW. */
+	public static final String CONFIG_GITFLOW = "gitflow";
+
+	/** The Constant CONFIG_GITFLOW_BRANCH. */
+	public static final String CONFIG_GITFLOW_BRANCH = "branch";
+
+	/** The Constant CONFIG_GITFLOW_BRANCH_MASTER. */
+	public static final String CONFIG_GITFLOW_BRANCH_MASTER = "master";
+
+	/** The Constant CONFIG_GITFLOW_BRANCH_DEVELOP. */
+	public static final String CONFIG_GITFLOW_BRANCH_DEVELOP = "develop";
+
+	/** The Constant CONFIG_GITFLOW_PREFIX. */
+	public static final String CONFIG_GITFLOW_PREFIX = "prefix";
+
+	/** The Constant CONFIG_GITFLOW_PREFIX_FEATURE. */
+	public static final String CONFIG_GITFLOW_PREFIX_FEATURE = "feature";
+
+	/** The Constant CONFIG_GITFLOW_PREFIX_RELEASE. */
+	public static final String CONFIG_GITFLOW_PREFIX_RELEASE = "release";
+
+	/** The Constant CONFIG_GITFLOW_PREFIX_HOTFIX. */
+	public static final String CONFIG_GITFLOW_PREFIX_HOTFIX = "hotfix";
+
+	/** The Constant CONFIG_GITFLOW_PREFIX_SUPPORT. */
+	public static final String CONFIG_GITFLOW_PREFIX_SUPPORT = "support";
+
+	/** The Constant CONFIG_GITFLOW_PREFIX_VERSION_TAG. */
+	public static final String CONFIG_GITFLOW_PREFIX_VERSION_TAG = "versiontag";
 
 	/** The master branch. */
 	private String masterBranch = "master";

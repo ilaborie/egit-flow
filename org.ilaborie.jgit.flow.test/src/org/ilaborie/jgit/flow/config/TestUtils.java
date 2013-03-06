@@ -6,16 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.NoFilepatternException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.NoMessageException;
-import org.eclipse.jgit.api.errors.UnmergedPathsException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.ilaborie.jgit.flow.repository.GitFlowRepository;
+import org.ilaborie.jgit.flow.GitFlow;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
@@ -75,14 +69,12 @@ public final class TestUtils {
 	 * @throws GitAPIException
 	 * @throws IOException
 	 */
-	public static Repository createGitFlowRepository() throws GitAPIException,
+	public static GitFlow createGitFlowRepository() throws GitAPIException,
 			IOException {
 		Repository repository = createRepositoryWithACommit();
 
 		// Initialize
-		GitFlowConfig config = new GitFlowConfig(); // Default config
-		new GitFlowRepository(repository).init(config);
-		return repository;
+		return GitFlow.wrap(repository).init().call();
 	}
 
 	/**
@@ -132,7 +124,7 @@ public final class TestUtils {
 	 * @throws GitAPIException
 	 * @throws IOException
 	 */
-	public static Repository createGitFlowRepositoryNotClean()
+	public static GitFlow createGitFlowRepositoryNotClean()
 			throws GitAPIException, IOException {
 		File tempDir = Files.createTempDir();
 		File repoDir = new File(tempDir, "JGit-Flow");
@@ -146,7 +138,7 @@ public final class TestUtils {
 				+ "txt"));
 		Git.wrap(repository).add().addFilepattern(Constants.GITIGNORE_FILENAME)
 				.call();
-		return repository;
+		return GitFlow.wrap(repository);
 	}
 
 	/**
