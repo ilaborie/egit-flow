@@ -10,6 +10,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
+import org.ilaborie.jgit.flow.feature.FeatureCheckoutCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
@@ -83,11 +84,20 @@ public class GitFlow {
 	}
 
 	/**
+	 * To git.
+	 * 
+	 * @return the git
+	 */
+	public Git toGit() {
+		return Git.wrap(this.repo.getRepository());
+	}
+
+	/**
 	 * Gets the git-flow repository.
 	 * 
 	 * @return the git-flow repository
 	 */
-	public GitFlowRepository getGitFlowRepository() {
+	public GitFlowRepository getRepository() {
 		return repo;
 	}
 
@@ -99,23 +109,32 @@ public class GitFlow {
 	public InitCommand init() {
 		return new InitCommand(this.repo);
 	}
-	
+
 	/**
 	 * git-flow feature start.
-	 *
+	 * 
 	 * @return the feature start command
 	 */
 	public FeatureStartCommand featureStart() {
 		return new FeatureStartCommand(this.repo);
 	}
-	
+
 	/**
 	 * git-flow feature list.
-	 *
+	 * 
 	 * @return the feature list command
 	 */
 	public FeatureListCommand featureList() {
 		return new FeatureListCommand(this.repo);
+	}
+
+	/**
+	 * git-flow feature checkout.
+	 * 
+	 * @return the feature checkout command
+	 */
+	public FeatureCheckoutCommand featureCheckout() {
+		return new FeatureCheckoutCommand(this.repo);
 	}
 
 }

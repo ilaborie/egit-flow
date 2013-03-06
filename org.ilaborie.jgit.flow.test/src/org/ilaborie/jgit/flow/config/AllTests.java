@@ -1,5 +1,6 @@
 package org.ilaborie.jgit.flow.config;
 
+import org.ilaborie.jgit.flow.config.feature.FeatureCheckoutTestCase;
 import org.ilaborie.jgit.flow.config.feature.FeatureListTestCase;
 import org.ilaborie.jgit.flow.config.feature.FeatureStartTestCase;
 import org.ilaborie.jgit.flow.config.init.InitCommandTestCase;
@@ -13,7 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
 GitFlowRepositoryTestCase.class, //
 		InitCommandTestCase.class, //
 		FeatureStartTestCase.class, //
-		FeatureListTestCase.class //
+		FeatureListTestCase.class, //
+		FeatureCheckoutTestCase.class //
 })
 public class AllTests {
 

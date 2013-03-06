@@ -70,7 +70,7 @@ public class GitFlowRepositoryTestCase {
 	@Test
 	public void testGetConfig() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
-		GitFlowRepository gitFlowRepository = gitFlow.getGitFlowRepository();
+		GitFlowRepository gitFlowRepository = gitFlow.getRepository();
 
 		GitFlowConfig config = gitFlowRepository.getGitFlowConfig();
 		assertNotNull(config);
@@ -94,7 +94,7 @@ public class GitFlowRepositoryTestCase {
 
 		// Initialized
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
-		gitFlowRepository = gitFlow.getGitFlowRepository();
+		gitFlowRepository = gitFlow.getRepository();
 		assertTrue(gitFlowRepository.isInitialize());
 	}
 
