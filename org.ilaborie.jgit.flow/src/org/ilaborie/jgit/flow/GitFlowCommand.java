@@ -14,6 +14,7 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.ilaborie.jgit.flow.config.GitFlowConfig;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
@@ -28,7 +29,7 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	private final GitFlowRepository gitFlowRepo;
 
 	/** Git */
-	private final Git git;
+	protected final Git git;
 
 	/**
 	 * Instantiates a new git-flow command.
@@ -49,6 +50,15 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	 */
 	public GitFlowRepository getGitFlowRepository() {
 		return gitFlowRepo;
+	}
+	
+	/**
+	 * Gets the git-flow configuration.
+	 *
+	 * @return the configuration
+	 */
+	public GitFlowConfig getConfig() {
+		return this.gitFlowRepo.getGitFlowConfig();
 	}
 
 	/**

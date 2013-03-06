@@ -1,10 +1,13 @@
 package org.ilaborie.jgit.flow.config.feature;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
 import org.ilaborie.jgit.flow.config.TestUtils;
@@ -12,9 +15,9 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow feature start test case.
+ * git-flow feature list test case.
  */
-public class FeatureStartTestCase {
+public class FeatureListTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -25,7 +28,7 @@ public class FeatureStartTestCase {
 	}
 
 	/**
-	 * Test feature start
+	 * Test feature list
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -34,24 +37,19 @@ public class FeatureStartTestCase {
 	public void test() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String feature = "feature_A";
-		Ref ref = gitFlow.featureStart().setName(feature).call();
+		// Create branches
+		List<String> branches = Arrays.asList("test0", "test1");
+		for (String branch : branches) {
+			gitFlow.featureStart().setName(branch).call();
+		}
 
-		assertNotNull(ref);
-		assertTrue(ref.getName().endsWith(feature));
-	}
+		List<String> features = gitFlow.featureList().call();
 
-	/**
-	 * Test feature start with no branch
-	 * 
-	 * @throws Exception
-	 *             the exception
-	 */
-	@Test(expected = NullPointerException.class)
-	public void testNoName() throws Exception {
-		GitFlow gitFlow = TestUtils.createGitFlowRepository();
-
-		gitFlow.featureStart().call();
+		assertNotNull(features);
+		assertEquals(branches.size(), features.size());
+		for (String branch : branches) {
+			assertTrue(branches.contains(branch));
+		}
 	}
 
 	/**
@@ -65,8 +63,7 @@ public class FeatureStartTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		String feature = "feature_A";
-		gitFlow.featureStart().setName(feature).call();
+		gitFlow.featureList().call();
 	}
 
 }

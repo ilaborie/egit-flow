@@ -12,7 +12,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * InitCommand test case.
+ * git-flow init test case.
  */
 public class InitCommandTestCase {
 

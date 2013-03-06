@@ -48,8 +48,7 @@ public class FeatureStartCommand extends GitFlowCommand<Ref> {
 		this.requireGitFlowInitialized();
 
 		// Branch name
-		String prefix = this.getGitFlowRepository().getGitFlowConfig()
-				.getFeaturePrefix();
+		String prefix = this.getConfig().getFeaturePrefix();
 		String branch = prefix + this.name;
 
 		// Check
