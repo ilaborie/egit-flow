@@ -53,7 +53,9 @@ public class InitCommand extends GitFlowCommand<GitFlow> {
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jgit.api.GitCommand#call()
 	 */
 	@Override
@@ -89,11 +91,10 @@ public class InitCommand extends GitFlowCommand<GitFlow> {
 			config.save();
 
 			// Check branch master and develop
-			this.checkOrCreateBranch(this.getRepository(), masterBranch,
-					developBranch);
+			this.checkOrCreateBranch(masterBranch, developBranch);
 
 			// Checkout to Develop
-			this.checkoutTo(this.getRepository(), developBranch);
+			this.checkoutTo(developBranch);
 		} catch (IOException e) {
 			throw new WrongRepositoryStateException(String.format(
 					"Cannot save git-flow config in %s", e,
