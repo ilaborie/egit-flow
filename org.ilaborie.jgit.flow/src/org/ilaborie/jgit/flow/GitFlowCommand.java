@@ -14,7 +14,6 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
@@ -28,6 +27,9 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	/** The git-flow repository. */
 	private final GitFlowRepository gitFlowRepo;
 
+	/** Git */
+	private final Git git;
+
 	/**
 	 * Instantiates a new git-flow command.
 	 * 
@@ -37,6 +39,7 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	protected GitFlowCommand(GitFlowRepository repository) {
 		super(repository.getRepository());
 		this.gitFlowRepo = repository;
+		this.git = Git.wrap(repository.getRepository());
 	}
 
 	/**
@@ -55,13 +58,11 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	 *            the repository
 	 * @param branch
 	 *            the branch
-	 * @return true, if successful
+	 * @return the branch
 	 * @throws GitAPIException
 	 */
-	protected boolean checkoutTo(Repository repository, String branch)
-			throws GitAPIException {
-		Ref ref = Git.wrap(repository).checkout().setName(branch).call();
-		return (ref != null);
+	protected Ref checkoutTo(String branch) throws GitAPIException {
+		return this.git.checkout().setName(branch).call();
 	}
 
 	/**
@@ -74,12 +75,12 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	 * @return <code>true</code>, if successful
 	 * @throws GitAPIException
 	 */
-	protected void checkOrCreateBranch(Repository repository,
-			String... branches) throws GitAPIException {
+	protected void checkOrCreateBranch(String... branches)
+			throws GitAPIException {
 		try {
 			for (String branch : branches) {
-				if (repository.getRef(branch) == null) {
-					this.createBranch(repository, branch);
+				if (this.repo.getRef(branch) == null) {
+					this.createBranch(branch);
 				}
 			}
 		} catch (IOException e) {
@@ -94,15 +95,14 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	 *            the repository
 	 * @param branch
 	 *            the branch
+	 * @return the created branch
 	 * @return true, if successful
 	 * @throws GitAPIException
 	 */
-	protected void createBranch(Repository repository, String branch)
-			throws GitAPIException {
+	protected Ref createBranch(String branch) throws GitAPIException {
 		checkNotNull(branch, "Branch null !");
-		CreateBranchCommand branchCreate = Git.wrap(this.getRepository())
-				.branchCreate();
-		branchCreate.setName(branch).call();
+		CreateBranchCommand branchCreate = this.git.branchCreate();
+		return branchCreate.setName(branch).call();
 	}
 
 	/**
@@ -115,13 +115,43 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	 * @return <code>true</code>, if successful
 	 * @throws WrongRepositoryStateException
 	 */
-	protected boolean containsBranch(Repository repository, String branch)
+	protected boolean containsBranch(String branch)
 			throws WrongRepositoryStateException {
 		try {
-			return (repository.getRef(branch) != null);
+			return (this.getRepository().getRef(branch) != null);
 		} catch (IOException e) {
 			throw new WrongRepositoryStateException("Cannot read branch", e);
 		}
+	}
+
+	/**
+	 * Require branch not exists.
+	 * 
+	 * @param branch
+	 *            the branch
+	 * @throws WrongRepositoryStateException
+	 *             the wrong repository state exception
+	 */
+	protected void requireBranchNotExists(String branch)
+			throws WrongRepositoryStateException {
+		if (this.containsBranch(branch))
+			throw new WrongRepositoryStateException(String.format(
+					"Branch %s already exists !", branch));
+	}
+
+	/**
+	 * Require branch exists.
+	 * 
+	 * @param branch
+	 *            the branch
+	 * @throws WrongRepositoryStateException
+	 *             the wrong repository state exception
+	 */
+	protected void requireBranchExists(String branch)
+			throws WrongRepositoryStateException {
+		if (!this.containsBranch(branch))
+			throw new WrongRepositoryStateException(String.format(
+					"Branch %s not exists !", branch));
 	}
 
 	/**
@@ -153,13 +183,12 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	protected void requireCleanWorkingTree() throws GitAPIException {
 		List<DiffEntry> diffs;
 		try {
-			Git git = Git.wrap(this.getRepository());
-			diffs = git.diff().setCached(false).call();
+			diffs = this.git.diff().setCached(false).call();
 			if (!diffs.isEmpty()) {
 				throw new IllegalStateException(
 						"fatal: Working tree contains unstaged changes.");
 			}
-			diffs = git.diff().setCached(true).call();
+			diffs = this.git.diff().setCached(true).call();
 			if (!diffs.isEmpty()) {
 				throw new IllegalStateException(
 						"fatal: Working tree contains uncommited changes.");
@@ -168,6 +197,20 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 			// OK
 		} catch (GitAPIException e) {
 			throw e;
+		}
+	}
+
+	/**
+	 * Require git flow initialized.
+	 * 
+	 * @throws WrongRepositoryStateException
+	 *             the wrong repository state exception
+	 */
+	protected void requireGitFlowInitialized()
+			throws WrongRepositoryStateException {
+		if (!this.getGitFlowRepository().isInitialize()) {
+			throw new WrongRepositoryStateException(
+					"fatal: Not a gitflow-enabled repository yet");
 		}
 	}
 

@@ -10,6 +10,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
+import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
@@ -90,12 +91,21 @@ public class GitFlow {
 	}
 
 	/**
-	 * Inits the.
+	 * git-flow init.
 	 * 
-	 * @return the inits the command
+	 * @return the initialize command
 	 */
 	public InitCommand init() {
 		return new InitCommand(this.repo);
+	}
+	
+	/**
+	 * git-flow feature start.
+	 *
+	 * @return the feature start command
+	 */
+	public FeatureStartCommand featureStart() {
+		return new FeatureStartCommand(this.repo);
 	}
 
 }
