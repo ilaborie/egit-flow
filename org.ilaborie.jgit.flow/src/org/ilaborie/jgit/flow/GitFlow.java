@@ -15,6 +15,7 @@ import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
+import org.ilaborie.jgit.flow.release.ReleaseListCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
@@ -145,6 +146,15 @@ public class GitFlow {
 	 */
 	public FeatureCheckoutCommand featureCheckout() {
 		return new FeatureCheckoutCommand(this.repo);
+	}
+
+	/**
+	 * git-flow release list.
+	 * 
+	 * @return the release list command
+	 */
+	public ReleaseListCommand releaseList() {
+		return new ReleaseListCommand(this.repo);
 	}
 
 }
