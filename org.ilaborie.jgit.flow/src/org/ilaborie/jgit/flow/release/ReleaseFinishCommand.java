@@ -1,28 +1,22 @@
 package org.ilaborie.jgit.flow.release;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.io.IOException;
-
-import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
-import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
+import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
-import org.eclipse.jgit.lib.Ref;
-import org.ilaborie.jgit.flow.GitFlowCommand;
+import org.ilaborie.jgit.flow.AbstractFinishCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
-/**
- * The git-flow feature finish command
- */
-public class ReleaseFinishCommand extends GitFlowCommand<MergeResult> {
+import com.google.common.base.Strings;
 
-	/** The feature name */
-	private String name;
+/**
+ * The git-flow release finish command
+ */
+public class ReleaseFinishCommand extends AbstractFinishCommand {
+
+	private String tagMessage;
 
 	/**
-	 * Instantiates a new git-flow init the command.
+	 * Instantiates a new git-flow release finish command.
 	 * 
 	 * @param repo
 	 *            the repository
@@ -32,47 +26,60 @@ public class ReleaseFinishCommand extends GitFlowCommand<MergeResult> {
 	}
 
 	/**
-	 * Sets the feature name.
+	 * Sets the tag message.
 	 * 
-	 * @param name
-	 *            the feature name
-	 * @return the command
+	 * @param tagMessage
+	 *            the new tag message
 	 */
-	public ReleaseFinishCommand setName(String name) {
-		this.name = checkNotNull(name);
-		return this;
+	public void setTagMessage(String tagMessage) {
+		this.tagMessage = tagMessage;
+	}
+
+	/**
+	 * Gets the tag message.
+	 * 
+	 * @return the tag message
+	 */
+	public String getTagMessage() {
+		return tagMessage;
+	}
+
+	@Override
+	public MergeResult call() throws GitAPIException {
+		MergeResult result = super.call();
+		if (result.getMergeStatus().isSuccessful()) {
+			// Create Tag on Master
+			this.checkoutTo(this.getTargetBranch());
+			TagCommand tagCmd = this.git.tag().setName(this.getName());
+			if (!Strings.isNullOrEmpty(this.getTagMessage())) {
+				tagCmd.setMessage(tagMessage);
+			}
+			tagCmd.call();
+
+			// Checkout to develop
+			this.checkoutTo(this.getConfig().getDevelopBranch());
+		}
+		return result;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jgit.api.GitCommand#call()
+	 * @see org.ilaborie.jgit.flow.AbstractFinishCommand#getPrefix()
 	 */
 	@Override
-	public MergeResult call() throws GitAPIException {
-		checkNotNull(this.name);
-		this.requireGitFlowInitialized();
-		this.requireCleanWorkingTree();
-
-		// Branch name
-		String prefix = this.getConfig().getFeaturePrefix();
-		String branch = prefix + this.name;
-
-		// Checkout to develop
-		String develop = this.getConfig().getDevelopBranch();
-		this.checkoutTo(develop);
-
-		try {
-			// Merge branch to develop
-			MergeCommand mergeCmd = this.git.merge().setFastForward(
-					FastForwardMode.NO_FF);
-			Ref featureRef = this.getRepository().getRef(branch);
-			mergeCmd.include(featureRef);
-
-			return mergeCmd.call();
-		} catch (IOException e) {
-			throw new WrongRepositoryStateException(
-					"Cannot find feature branch", e);
-		}
+	protected String getPrefix() {
+		return this.getConfig().getReleasePrefix();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ilaborie.jgit.flow.AbstractFinishCommand#getTargetBranch()
+	 */
+	@Override
+	protected String getTargetBranch() {
+		return this.getConfig().getMasterBranch();
+	}
+
 }

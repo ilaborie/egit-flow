@@ -13,4 +13,5 @@ Export-Package: org.ilaborie.jgit.flow;version="1.0.0",
  org.ilaborie.jgit.flow.config;version="1.0.0",
  org.ilaborie.jgit.flow.feature;version="1.0.0",
  org.ilaborie.jgit.flow.init;version="1.0.0",
+ org.ilaborie.jgit.flow.release;version="1.0.0",
  org.ilaborie.jgit.flow.repository;version="1.0.0"

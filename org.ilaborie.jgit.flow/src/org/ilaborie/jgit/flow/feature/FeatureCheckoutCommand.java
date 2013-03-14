@@ -16,7 +16,7 @@ public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
 	private String name;
 
 	/**
-	 * Instantiates a new git-flow init the command.
+	 * Instantiates a new git-flow feature checkout command.
 	 * 
 	 * @param repo
 	 *            the repository

@@ -26,15 +26,24 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 	}
 
 	/**
-	 * Sets the feature name.
+	 * Sets the name.
 	 * 
 	 * @param name
-	 *            the feature name
+	 *            the name
 	 * @return the command
 	 */
 	public AbstractStartCommand setName(String name) {
 		this.name = checkNotNull(name);
 		return this;
+	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
 	/*
@@ -61,11 +70,10 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 		return this.checkoutTo(branch);
 	}
 
-
 	/**
 	 * Gets the prefix.
-	 *
+	 * 
 	 * @return the prefix
 	 */
-	protected abstract String getPrefix() ;
+	protected abstract String getPrefix();
 }

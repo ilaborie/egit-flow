@@ -16,12 +16,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 /**
- * The git-flow XXX list command
+ * The git-flow X list command
  */
 public abstract class AbstractListCommand extends GitFlowCommand<List<String>> {
 
 	/**
-	 * Instantiates a new git-flow XXX list command.
+	 * Instantiates a new git-flow X list command.
 	 * 
 	 * @param repo
 	 *            the repository

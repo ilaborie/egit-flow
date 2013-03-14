@@ -15,6 +15,7 @@ import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
+import org.ilaborie.jgit.flow.release.ReleaseFinishCommand;
 import org.ilaborie.jgit.flow.release.ReleaseListCommand;
 import org.ilaborie.jgit.flow.release.ReleaseStartCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
@@ -164,6 +165,15 @@ public class GitFlow {
 	 */
 	public ReleaseListCommand releaseList() {
 		return new ReleaseListCommand(this.repo);
+	}
+
+	/**
+	 * git-flow release finish.
+	 * 
+	 * @return the release finish command
+	 */
+	public ReleaseFinishCommand releaseFinish() {
+		return new ReleaseFinishCommand(this.repo);
 	}
 
 }
