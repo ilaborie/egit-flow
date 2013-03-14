@@ -56,12 +56,23 @@ public class InitCommandTestCase {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testInitNoHead() throws Exception {
 		Repository repo = TestUtils.createEmptyRepository();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
 		gitFlow.init().call();
+		
+		GitFlowRepository gitFlowRepository = gitFlow.getRepository();
+		String master = gitFlowRepository.getMasterBranch();
+		// check has branch master
+		assertNotNull(repo.getRef(master));
+
+		String develop = gitFlowRepository.getDevelopBranch();
+		// check has branch develop
+		assertNotNull(repo.getRef(develop));
+		// check branch develop checkout
+		assertEquals(develop, repo.getBranch());
 	}
 
 	/**

@@ -51,10 +51,10 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	public GitFlowRepository getGitFlowRepository() {
 		return gitFlowRepo;
 	}
-	
+
 	/**
 	 * Gets the git-flow configuration.
-	 *
+	 * 
 	 * @return the configuration
 	 */
 	public GitFlowConfig getConfig() {
@@ -172,10 +172,11 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	 * @throws WrongRepositoryStateException
 	 *             the wrong repository state exception
 	 */
-	protected void requireHasHead() throws WrongRepositoryStateException {
+	protected void requireHasHead() throws GitAPIException {
 		try {
 			if (this.getRepository().resolve(Constants.HEAD) == null) {
-				throw new IllegalStateException("HEAD not found");
+				// Create an empty commit
+				git.commit().setMessage("Initial commit").call();
 			}
 		} catch (IOException e) {
 			throw new WrongRepositoryStateException("Cannot query HEAD", e);

@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
 
@@ -137,9 +136,6 @@ public final class TestUtils {
 	 */
 	private static void createFirstCommit(File tempDir, Repository repository)
 			throws IOException, GitAPIException {
-		Files.touch(new File(tempDir, Constants.GITIGNORE_FILENAME));
-		Git.wrap(repository).add().addFilepattern(Constants.GITIGNORE_FILENAME)
-				.call();
 		Git.wrap(repository).commit().setMessage("Initial commit").call();
 	}
 
