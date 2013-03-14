@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.Ref;
@@ -63,7 +64,8 @@ public class FeatureFinishCommand extends GitFlowCommand<MergeResult> {
 
 		try {
 			// Merge branch to develop
-			MergeCommand mergeCmd = this.git.merge();
+			MergeCommand mergeCmd = this.git.merge().setFastForward(
+					FastForwardMode.NO_FF);
 			Ref featureRef = this.getRepository().getRef(branch);
 			mergeCmd.include(featureRef);
 
