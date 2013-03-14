@@ -1,4 +1,4 @@
-package org.ilaborie.jgit.flow.feature;
+package org.ilaborie.jgit.flow;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -8,33 +8,42 @@ import org.ilaborie.jgit.flow.GitFlowCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow feature checkout command
+ * The git-flow X start command
  */
-public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
+public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 
 	/** The feature name */
 	private String name;
 
 	/**
-	 * Instantiates a new git-flow feature checkout command.
+	 * Instantiates a new git-flow X start command.
 	 * 
 	 * @param repo
 	 *            the repository
 	 */
-	public FeatureCheckoutCommand(GitFlowRepository repo) {
+	public AbstractStartCommand(GitFlowRepository repo) {
 		super(repo);
 	}
 
 	/**
-	 * Sets the feature name.
+	 * Sets the name.
 	 * 
 	 * @param name
-	 *            the feature name
+	 *            the name
 	 * @return the command
 	 */
-	public FeatureCheckoutCommand setName(String name) {
+	public AbstractStartCommand setName(String name) {
 		this.name = checkNotNull(name);
 		return this;
+	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
 	/*
@@ -48,13 +57,23 @@ public class FeatureCheckoutCommand extends GitFlowCommand<Ref> {
 		this.requireGitFlowInitialized();
 
 		// Branch name
-		String prefix = this.getConfig().getFeaturePrefix();
+		String prefix = this.getPrefix();
 		String branch = prefix + this.name;
 
 		// Check
-		this.requireBranchExists(branch);
+		this.requireBranchNotExists(branch);
+
+		// Create branch
+		this.createBranch(branch);
 
 		// Checkout
 		return this.checkoutTo(branch);
 	}
+
+	/**
+	 * Gets the prefix.
+	 * 
+	 * @return the prefix
+	 */
+	protected abstract String getPrefix();
 }

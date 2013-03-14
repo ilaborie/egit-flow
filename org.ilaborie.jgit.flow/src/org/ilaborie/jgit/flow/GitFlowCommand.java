@@ -206,8 +206,6 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 			}
 		} catch (NoHeadException nhe) {
 			// OK
-		} catch (GitAPIException e) {
-			throw e;
 		}
 	}
 
