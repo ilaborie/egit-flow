@@ -165,6 +165,38 @@ public abstract class GitFlowCommand<T> extends GitCommand<T> {
 	}
 
 	/**
+	 * Require version exists.
+	 * 
+	 * @param tag
+	 *            the tag
+	 * @throws WrongRepositoryStateException
+	 *             the wrong repository state exception
+	 */
+	protected void requireTagExists(String tag)
+			throws WrongRepositoryStateException {
+		if (!this.getRepository().getTags().containsKey(tag)) {
+			throw new WrongRepositoryStateException(String.format(
+					"Tag %s not exists !", tag));
+		}
+	}
+
+	/**
+	 * Require version not exists.
+	 * 
+	 * @param tag
+	 *            the tag
+	 * @throws WrongRepositoryStateException
+	 *             the wrong repository state exception
+	 */
+	protected void requireTagNotExists(String tag)
+			throws WrongRepositoryStateException {
+		if (this.getRepository().getTags().containsKey(tag)) {
+			throw new WrongRepositoryStateException(String.format(
+					"Tag %s exists !", tag));
+		}
+	}
+
+	/**
 	 * Require has head.
 	 * 
 	 * @param repository

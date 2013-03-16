@@ -53,7 +53,7 @@ public class GitFlowConfig {
 	private String hotfixPrefix = "hotfix/";
 
 	/** The support prefix. */
-	private String supportPrefix = "hotfix/";
+	private String supportPrefix = "support/";
 
 	/** The version tag prefix. */
 	private String versionTagPrefix = "";

@@ -22,6 +22,8 @@ import org.ilaborie.jgit.flow.release.ReleaseFinishCommand;
 import org.ilaborie.jgit.flow.release.ReleaseListCommand;
 import org.ilaborie.jgit.flow.release.ReleaseStartCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
+import org.ilaborie.jgit.flow.support.SupportListCommand;
+import org.ilaborie.jgit.flow.support.SupportStartCommand;
 
 /**
  * Offer git-flow commands
@@ -152,6 +154,7 @@ public class GitFlow {
 	public FeatureCheckoutCommand featureCheckout() {
 		return new FeatureCheckoutCommand(this.repo);
 	}
+
 	/**
 	 * git-flow release start.
 	 * 
@@ -178,6 +181,7 @@ public class GitFlow {
 	public ReleaseFinishCommand releaseFinish() {
 		return new ReleaseFinishCommand(this.repo);
 	}
+
 	/**
 	 * git-flow hotfix start.
 	 * 
@@ -186,6 +190,7 @@ public class GitFlow {
 	public HotfixStartCommand hotfixStart() {
 		return new HotfixStartCommand(this.repo);
 	}
+
 	/**
 	 * git-flow hotfix list.
 	 * 
@@ -194,6 +199,7 @@ public class GitFlow {
 	public HotfixListCommand hotfixList() {
 		return new HotfixListCommand(this.repo);
 	}
+
 	/**
 	 * git-flow hotfix finish.
 	 * 
@@ -201,6 +207,24 @@ public class GitFlow {
 	 */
 	public HotfixFinishCommand hotfixFinish() {
 		return new HotfixFinishCommand(this.repo);
+	}
+
+	/**
+	 * git-flow support start.
+	 * 
+	 * @return the support start command
+	 */
+	public SupportStartCommand supportStart() {
+		return new SupportStartCommand(this.repo);
+	}
+
+	/**
+	 * git-flow support list.
+	 * 
+	 * @return the support list command
+	 */
+	public SupportListCommand supportList() {
+		return new SupportListCommand(this.repo);
 	}
 
 }

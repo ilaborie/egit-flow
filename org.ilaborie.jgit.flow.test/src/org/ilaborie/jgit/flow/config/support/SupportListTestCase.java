@@ -1,9 +1,10 @@
-package org.ilaborie.jgit.flow.config.hotfix;
+package org.ilaborie.jgit.flow.config.support;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,9 +16,9 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow hotfix list test case.
+ * git-flow support list test case.
  */
-public class HotfixListTestCase {
+public class SupportListTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -28,25 +29,27 @@ public class HotfixListTestCase {
 	}
 
 	/**
-	 * Test hotfix list
+	 * Test support list
 	 * 
 	 * @throws Exception
 	 *             the exception
 	 */
 	@Test
 	public void test() throws Exception {
-		GitFlow gitFlow = TestUtils.createGitFlowRepository();
+		File tempFile = TestUtils.createGitFlowFeatureRelease();
+		GitFlow gitFlow = GitFlow.open(tempFile);
 
+		String base = "v1.0.0";
 		// Create branches
-		List<String> branches = Arrays.asList("v1.0.1", "v1.0.2");
+		List<String> branches = Arrays.asList("v1.1.x", "v1.2.x");
 		for (String branch : branches) {
-			gitFlow.hotfixStart().setName(branch).call();
+			gitFlow.supportStart().setBase(base).setName(branch).call();
 		}
 
-		List<String> hotfixes = gitFlow.hotfixList().call();
+		List<String> supports = gitFlow.supportList().call();
 
-		assertNotNull(hotfixes);
-		assertEquals(branches.size(), hotfixes.size());
+		assertNotNull(supports);
+		assertEquals(branches.size(), supports.size());
 		for (String branch : branches) {
 			assertTrue(branches.contains(branch));
 		}
@@ -63,7 +66,7 @@ public class HotfixListTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		gitFlow.hotfixList().call();
+		gitFlow.supportList().call();
 	}
 
 }

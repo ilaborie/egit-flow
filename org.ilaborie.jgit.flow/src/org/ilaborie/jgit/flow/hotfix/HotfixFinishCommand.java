@@ -1,5 +1,7 @@
 package org.ilaborie.jgit.flow.hotfix;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -44,11 +46,15 @@ public class HotfixFinishCommand extends AbstractFinishCommand {
 		return tagMessage;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ilaborie.jgit.flow.AbstractFinishCommand#call()
 	 */
 	@Override
 	public MergeResult call() throws GitAPIException {
+		checkNotNull(this.getName());
+		this.requireTagNotExists(this.getName());
 		MergeResult result = super.call();
 		if (result.getMergeStatus().isSuccessful()) {
 			// Create Tag on Master
