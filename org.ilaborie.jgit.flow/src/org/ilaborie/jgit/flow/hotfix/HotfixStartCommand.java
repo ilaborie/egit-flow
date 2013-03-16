@@ -1,31 +1,29 @@
-package org.ilaborie.jgit.flow.feature;
+package org.ilaborie.jgit.flow.hotfix;
 
 import org.ilaborie.jgit.flow.AbstractStartCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow feature start command
+ * The git-flow hotfix start command
  */
-public class FeatureStartCommand extends AbstractStartCommand {
+public class HotfixStartCommand extends AbstractStartCommand {
 
 	/**
-	 * Instantiates a new git-flow feature start command.
+	 * Instantiates a new git-flow hotfix start command.
 	 * 
 	 * @param repo
 	 *            the repository
 	 */
-	public FeatureStartCommand(GitFlowRepository repo) {
+	public HotfixStartCommand(GitFlowRepository repo) {
 		super(repo);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getSourceBranch()
 	 */
 	@Override
 	protected String getSourceBranch() {
-		return this.getConfig().getDevelopBranch();
+		return this.getConfig().getMasterBranch();
 	}
 
 	/*
@@ -35,6 +33,6 @@ public class FeatureStartCommand extends AbstractStartCommand {
 	 */
 	@Override
 	protected String getPrefix() {
-		return this.getConfig().getFeaturePrefix();
+		return this.getConfig().getHotfixPrefix();
 	}
 }

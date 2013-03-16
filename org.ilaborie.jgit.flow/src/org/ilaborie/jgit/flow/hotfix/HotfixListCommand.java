@@ -1,20 +1,20 @@
-package org.ilaborie.jgit.flow.release;
+package org.ilaborie.jgit.flow.hotfix;
 
 import org.ilaborie.jgit.flow.AbstractListCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow release list command
+ * The git-flow hotfix list command
  */
-public class ReleaseListCommand extends AbstractListCommand {
+public class HotfixListCommand extends AbstractListCommand {
 
 	/**
-	 * Instantiates a new git-flow release list command.
+	 * Instantiates a new hotfix release list command.
 	 * 
 	 * @param repo
 	 *            the repository
 	 */
-	public ReleaseListCommand(GitFlowRepository repo) {
+	public HotfixListCommand(GitFlowRepository repo) {
 		super(repo);
 	}
 
@@ -25,6 +25,6 @@ public class ReleaseListCommand extends AbstractListCommand {
 	 */
 	@Override
 	protected String getPrefix() {
-		return this.getConfig().getReleasePrefix();
+		return this.getConfig().getHotfixPrefix();
 	}
 }

@@ -4,6 +4,9 @@ import org.ilaborie.jgit.flow.config.feature.FeatureCheckoutTestCase;
 import org.ilaborie.jgit.flow.config.feature.FeatureFinishTestCase;
 import org.ilaborie.jgit.flow.config.feature.FeatureListTestCase;
 import org.ilaborie.jgit.flow.config.feature.FeatureStartTestCase;
+import org.ilaborie.jgit.flow.config.hotfix.HotfixFinishTestCase;
+import org.ilaborie.jgit.flow.config.hotfix.HotfixListTestCase;
+import org.ilaborie.jgit.flow.config.hotfix.HotfixStartTestCase;
 import org.ilaborie.jgit.flow.config.init.InitCommandTestCase;
 import org.ilaborie.jgit.flow.config.release.ReleaseFinishTestCase;
 import org.ilaborie.jgit.flow.config.release.ReleaseListTestCase;
@@ -25,7 +28,11 @@ import org.junit.runners.Suite.SuiteClasses;
 		
 		ReleaseStartTestCase.class, //
 		ReleaseListTestCase.class, //
-		ReleaseFinishTestCase.class //
+		ReleaseFinishTestCase.class, //
+		
+		HotfixStartTestCase.class, //
+		HotfixListTestCase.class, //
+		HotfixFinishTestCase.class //
 })
 public class AllTests {
 

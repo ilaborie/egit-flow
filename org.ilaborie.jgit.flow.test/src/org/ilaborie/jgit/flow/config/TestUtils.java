@@ -9,6 +9,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
+import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
@@ -100,6 +101,59 @@ public final class TestUtils {
 		GitFlow.wrap(repository).init().call();
 
 		return repoDir;
+	}
+
+	/**
+	 * Creates the git flow repository with a release.
+	 * 
+	 * @return the git flow
+	 * @throws GitAPIException
+	 *             the git api exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	public static File createGitFlowFeatureRelease() throws GitAPIException,
+			IOException {
+		File tempDir = createGitFlowRepositoryAlt();
+		GitFlow gitFlow = GitFlow.open(tempDir);
+		GitFlowRepository repository = gitFlow.getRepository();
+
+		String develop = repository.getDevelopBranch();
+
+		// Move to develop
+		gitFlow.toGit().checkout().setName(develop).call();
+
+		// Work on Develop
+		String developFile = "develop_test.txt";
+		Files.touch(new File(tempDir, developFile));
+		gitFlow.toGit().add().addFilepattern(developFile).call();
+		gitFlow.toGit().commit().setMessage("Add a file").call();
+
+		// Work on Feature A
+		String featureName = "FeatureA";
+		String featureFile = featureName + ".txt";
+		gitFlow.featureStart().setName(featureName).call();
+		Files.touch(new File(tempDir, featureFile));
+		gitFlow.toGit().add().addFilepattern(featureFile).call();
+		gitFlow.toGit().commit().setMessage("Implements " + featureName).call();
+
+		// Finish Feature A
+		gitFlow.featureFinish().setName(featureName).call();
+
+		// Create a release
+		String releaseName = "v1.0.0";
+		gitFlow.releaseStart().setName(releaseName).call();
+
+		// Create a commit on release branch
+		String releaseFile = String.format("ReleaseNotes-%s.txt", releaseName);
+		Files.touch(new File(tempDir, releaseFile));
+		gitFlow.toGit().add().addFilepattern(releaseFile).call();
+		gitFlow.toGit().commit().setMessage("Add release notes").call();
+
+		// release finish
+		gitFlow.releaseFinish().setName(releaseName).call();
+
+		return tempDir;
 	}
 
 	/**

@@ -96,9 +96,9 @@ public class InitCommand extends GitFlowCommand<GitFlow> {
 			// Checkout to Develop
 			this.checkoutTo(developBranch);
 		} catch (IOException e) {
-			throw new WrongRepositoryStateException(String.format(
-					"Cannot save git-flow config in %s", e,
-					this.getRepository()), e);
+			String message = String.format("Cannot save git-flow config in %s",
+					e, this.getRepository());
+			throw new WrongRepositoryStateException(message, e);
 		}
 		return GitFlow.wrap(this.getGitFlowRepository());
 	}

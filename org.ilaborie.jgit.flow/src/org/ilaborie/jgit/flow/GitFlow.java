@@ -14,6 +14,9 @@ import org.ilaborie.jgit.flow.feature.FeatureCheckoutCommand;
 import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
+import org.ilaborie.jgit.flow.hotfix.HotfixFinishCommand;
+import org.ilaborie.jgit.flow.hotfix.HotfixListCommand;
+import org.ilaborie.jgit.flow.hotfix.HotfixStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
 import org.ilaborie.jgit.flow.release.ReleaseFinishCommand;
 import org.ilaborie.jgit.flow.release.ReleaseListCommand;
@@ -174,6 +177,30 @@ public class GitFlow {
 	 */
 	public ReleaseFinishCommand releaseFinish() {
 		return new ReleaseFinishCommand(this.repo);
+	}
+	/**
+	 * git-flow hotfix start.
+	 * 
+	 * @return the hotfix start command
+	 */
+	public HotfixStartCommand hotfixStart() {
+		return new HotfixStartCommand(this.repo);
+	}
+	/**
+	 * git-flow hotfix list.
+	 * 
+	 * @return the hotfix list command
+	 */
+	public HotfixListCommand hotfixList() {
+		return new HotfixListCommand(this.repo);
+	}
+	/**
+	 * git-flow hotfix finish.
+	 * 
+	 * @return the hotfix finish command
+	 */
+	public HotfixFinishCommand hotfixFinish() {
+		return new HotfixFinishCommand(this.repo);
 	}
 
 }

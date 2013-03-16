@@ -36,10 +36,10 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 		this.name = checkNotNull(name);
 		return this;
 	}
-	
+
 	/**
 	 * Gets the name.
-	 *
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -60,6 +60,10 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 		String prefix = this.getPrefix();
 		String branch = prefix + this.name;
 
+		// Checkout to source
+		String source = this.getSourceBranch();
+		this.checkoutTo(source);
+		
 		// Check
 		this.requireBranchNotExists(branch);
 
@@ -69,6 +73,13 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 		// Checkout
 		return this.checkoutTo(branch);
 	}
+
+	/**
+	 * Gets the source branch.
+	 * 
+	 * @return the source branch
+	 */
+	protected abstract String getSourceBranch();
 
 	/**
 	 * Gets the prefix.

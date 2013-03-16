@@ -18,10 +18,20 @@ public class ReleaseStartCommand extends AbstractStartCommand {
 		super(repo);
 	}
 
-	/**
-	 * Gets the prefix.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the prefix
+	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getSourceBranch()
+	 */
+	@Override
+	protected String getSourceBranch() {
+		return this.getConfig().getDevelopBranch();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getPrefix()
 	 */
 	@Override
 	protected String getPrefix() {
