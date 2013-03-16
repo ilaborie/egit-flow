@@ -18,9 +18,6 @@ import org.ilaborie.jgit.flow.repository.GitFlowRepository;
  */
 public abstract class AbstractFinishCommand extends GitFlowCommand<MergeResult> {
 
-	/** The name */
-	private String name;
-
 	/**
 	 * Instantiates a new git-flow X finish command.
 	 * 
@@ -31,27 +28,6 @@ public abstract class AbstractFinishCommand extends GitFlowCommand<MergeResult> 
 		super(repo);
 	}
 
-	/**
-	 * Sets the name.
-	 * 
-	 * @param name
-	 *            the name
-	 * @return the command
-	 */
-	public AbstractFinishCommand setName(String name) {
-		this.name = checkNotNull(name);
-		return this;
-	}
-	
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -59,13 +35,13 @@ public abstract class AbstractFinishCommand extends GitFlowCommand<MergeResult> 
 	 */
 	@Override
 	public MergeResult call() throws GitAPIException {
-		checkNotNull(this.name);
+		checkNotNull(this.getName());
 		this.requireGitFlowInitialized();
 		this.requireCleanWorkingTree();
 
 		// Branch name
 		String prefix = this.getPrefix();
-		String branch = prefix + this.name;
+		String branch = prefix + this.getName();
 
 		// Checkout to target
 		String target = getTargetBranch();
@@ -83,6 +59,13 @@ public abstract class AbstractFinishCommand extends GitFlowCommand<MergeResult> 
 			throw new WrongRepositoryStateException("Cannot find branch", e);
 		}
 	}
+
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
+	protected abstract String getName();
 
 	/**
 	 * Gets the prefix.

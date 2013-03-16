@@ -6,6 +6,7 @@ import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.ilaborie.jgit.flow.AbstractFinishCommand;
+import org.ilaborie.jgit.flow.config.GitFlowConfig;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 import com.google.common.base.Strings;
@@ -15,7 +16,11 @@ import com.google.common.base.Strings;
  */
 public class HotfixFinishCommand extends AbstractFinishCommand {
 
+	/** The tag message. */
 	private String tagMessage;
+
+	/** The version. */
+	private String version;
 
 	/**
 	 * Instantiates a new git-flow hotfix finish command.
@@ -32,9 +37,11 @@ public class HotfixFinishCommand extends AbstractFinishCommand {
 	 * 
 	 * @param tagMessage
 	 *            the new tag message
+	 * @return the command
 	 */
-	public void setTagMessage(String tagMessage) {
+	public HotfixFinishCommand setTagMessage(String tagMessage) {
 		this.tagMessage = tagMessage;
+		return this;
 	}
 
 	/**
@@ -46,6 +53,27 @@ public class HotfixFinishCommand extends AbstractFinishCommand {
 		return tagMessage;
 	}
 
+	/**
+	 * Gets the version.
+	 * 
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * Sets the version.
+	 * 
+	 * @param version
+	 *            the new version
+	 * @return the command
+	 */
+	public HotfixFinishCommand setVersion(String version) {
+		this.version = version;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,15 +81,18 @@ public class HotfixFinishCommand extends AbstractFinishCommand {
 	 */
 	@Override
 	public MergeResult call() throws GitAPIException {
-		checkNotNull(this.getName());
-		this.requireTagNotExists(this.getName());
+		this.requireGitFlowInitialized();
+		checkNotNull(this.getVersion());
+		String tag = this.getTagName();
+
+		this.requireTagNotExists(tag);
 		MergeResult result = super.call();
 		if (result.getMergeStatus().isSuccessful()) {
 			// Create Tag on Master
 			this.checkoutTo(this.getTargetBranch());
-			TagCommand tagCmd = this.git.tag().setName(this.getName());
+			TagCommand tagCmd = this.git.tag().setName(tag);
 			if (!Strings.isNullOrEmpty(this.getTagMessage())) {
-				tagCmd.setMessage(tagMessage);
+				tagCmd.setMessage(this.getTagMessage());
 			}
 			tagCmd.call();
 
@@ -69,6 +100,16 @@ public class HotfixFinishCommand extends AbstractFinishCommand {
 			this.checkoutTo(this.getConfig().getDevelopBranch());
 		}
 		return result;
+	}
+
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
+	@Override
+	protected String getName() {
+		return this.getVersion();
 	}
 
 	/*
@@ -79,6 +120,23 @@ public class HotfixFinishCommand extends AbstractFinishCommand {
 	@Override
 	protected String getPrefix() {
 		return this.getConfig().getHotfixPrefix();
+	}
+
+	/**
+	 * Gets the tag name.
+	 * 
+	 * @return the tag name
+	 */
+	private String getTagName() {
+		String tagName;
+		GitFlowConfig config = this.getConfig();
+		String versionTagPrefix = config.getVersionTagPrefix();
+		if (!Strings.isNullOrEmpty(versionTagPrefix)) {
+			tagName = versionTagPrefix + this.getVersion();
+		} else {
+			tagName = this.getVersion();
+		}
+		return tagName;
 	}
 
 	/*

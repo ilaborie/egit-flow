@@ -54,7 +54,7 @@ public class HotfixFinishTestCase {
 		gitFlow.toGit().commit().setMessage("Add hotfix notes").call();
 
 		// hotfix finish
-		MergeResult mergeResult = gitFlow.hotfixFinish().setName(hotfixName)
+		MergeResult mergeResult = gitFlow.hotfixFinish().setVersion(hotfixName)
 				.call();
 
 		// check merge
@@ -95,7 +95,7 @@ public class HotfixFinishTestCase {
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
 		String hotfix = "hotfix_A";
-		gitFlow.hotfixFinish().setName(hotfix).call();
+		gitFlow.hotfixFinish().setVersion(hotfix).call();
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class HotfixFinishTestCase {
 				.call();
 
 		// hotfix checkout
-		gitFlow.hotfixFinish().setName("test0").call();
+		gitFlow.hotfixFinish().setVersion("test0").call();
 
 	}
 

@@ -65,8 +65,57 @@ public class ReleaseFinishTestCase {
 		gitFlow.toGit().commit().setMessage("Add release notes").call();
 
 		// release finish
-		MergeResult mergeResult = gitFlow.releaseFinish().setName(releaseName)
-				.call();
+		MergeResult mergeResult = gitFlow.releaseFinish()
+				.setVersion(releaseName).call();
+
+		// check merge
+		assertTrue(mergeResult.getMergeStatus().isSuccessful());
+
+		// check branch develop checkout
+		assertEquals(develop, repository.getRepository().getBranch());
+
+		// check Tag
+		Ref tagRef = repository.getRepository().getTags().get(releaseName);
+		assertNotNull(tagRef);
+	}
+
+	/**
+	 * Test release start
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void testWithMessage() throws Exception {
+		File tempDir = TestUtils.createGitFlowRepositoryAlt();
+		GitFlow gitFlow = GitFlow.open(tempDir);
+		GitFlowRepository repository = gitFlow.getRepository();
+
+		String develop = repository.getDevelopBranch();
+
+		// Move to develop
+		gitFlow.toGit().checkout().setName(develop).call();
+
+		// Work on Develop
+		String developFile = "develop_test.txt";
+		Files.touch(new File(tempDir, developFile));
+		gitFlow.toGit().add().addFilepattern(developFile).call();
+		gitFlow.toGit().commit().setMessage("Add a file").call();
+
+		// Create a release
+		String releaseName = "v1.0.0";
+		gitFlow.releaseStart().setName(releaseName).call();
+
+		// Create a commit on release branch
+		String releaseFile = String.format("ReleaseNotes-%s.txt", releaseName);
+		Files.touch(new File(tempDir, releaseFile));
+		gitFlow.toGit().add().addFilepattern(releaseFile).call();
+		gitFlow.toGit().commit().setMessage("Add release notes").call();
+
+		// release finish
+		String message = "Lorem ipsum dolor sit amet";
+		MergeResult mergeResult = gitFlow.releaseFinish()
+				.setVersion(releaseName).setTagMessage(message).call();
 
 		// check merge
 		assertTrue(mergeResult.getMergeStatus().isSuccessful());
@@ -104,7 +153,7 @@ public class ReleaseFinishTestCase {
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
 		String release = "release_A";
-		gitFlow.releaseFinish().setName(release).call();
+		gitFlow.releaseFinish().setVersion(release).call();
 	}
 
 	/**
@@ -123,7 +172,7 @@ public class ReleaseFinishTestCase {
 				.call();
 
 		// release checkout
-		gitFlow.releaseFinish().setName("test0").call();
+		gitFlow.releaseFinish().setVersion("test0").call();
 
 	}
 

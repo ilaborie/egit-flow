@@ -151,7 +151,7 @@ public final class TestUtils {
 		gitFlow.toGit().commit().setMessage("Add release notes").call();
 
 		// release finish
-		gitFlow.releaseFinish().setName(releaseName).call();
+		gitFlow.releaseFinish().setVersion(releaseName).call();
 
 		return tempDir;
 	}

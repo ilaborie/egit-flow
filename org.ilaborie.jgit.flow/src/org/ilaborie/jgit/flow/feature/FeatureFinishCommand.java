@@ -4,9 +4,12 @@ import org.ilaborie.jgit.flow.AbstractFinishCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow feature finish command
+ * The git-flow feature finish command.
  */
 public class FeatureFinishCommand extends AbstractFinishCommand {
+
+	/** The name. */
+	private String name;
 
 	/**
 	 * Instantiates a new git-flow feature finish command.
@@ -16,6 +19,28 @@ public class FeatureFinishCommand extends AbstractFinishCommand {
 	 */
 	public FeatureFinishCommand(GitFlowRepository repo) {
 		super(repo);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ilaborie.jgit.flow.AbstractFinishCommand#getName()
+	 */
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the new name
+	 * @return the command
+	 */
+	public FeatureFinishCommand setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	/*

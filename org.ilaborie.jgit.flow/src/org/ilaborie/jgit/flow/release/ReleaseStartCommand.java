@@ -1,7 +1,10 @@
 package org.ilaborie.jgit.flow.release;
 
 import org.ilaborie.jgit.flow.AbstractStartCommand;
+import org.ilaborie.jgit.flow.config.GitFlowConfig;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
+
+import com.google.common.base.Strings;
 
 /**
  * The git-flow feature start command
@@ -35,6 +38,14 @@ public class ReleaseStartCommand extends AbstractStartCommand {
 	 */
 	@Override
 	protected String getPrefix() {
-		return this.getConfig().getReleasePrefix();
+		GitFlowConfig config = this.getConfig();
+		String prefix;
+		String versionTagPrefix = config.getVersionTagPrefix();
+		if (!Strings.isNullOrEmpty(versionTagPrefix)) {
+			prefix = config.getReleasePrefix() + versionTagPrefix;
+		} else {
+			prefix = config.getReleasePrefix();
+		}
+		return prefix;
 	}
 }
