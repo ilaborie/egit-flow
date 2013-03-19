@@ -40,7 +40,7 @@ public class ReleaseListTestCase {
 		// Create branches
 		List<String> branches = Arrays.asList("test0", "test1");
 		for (String branch : branches) {
-			gitFlow.releaseStart().setName(branch).call();
+			gitFlow.releaseStart().setVersion(branch).call();
 		}
 
 		List<String> features = gitFlow.releaseList().call();

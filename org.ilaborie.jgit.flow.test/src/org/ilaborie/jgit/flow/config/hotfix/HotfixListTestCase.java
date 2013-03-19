@@ -40,7 +40,7 @@ public class HotfixListTestCase {
 		// Create branches
 		List<String> branches = Arrays.asList("v1.0.1", "v1.0.2");
 		for (String branch : branches) {
-			gitFlow.hotfixStart().setName(branch).call();
+			gitFlow.hotfixStart().setVersion(branch).call();
 		}
 
 		List<String> hotfixes = gitFlow.hotfixList().call();

@@ -8,6 +8,9 @@ import org.ilaborie.jgit.flow.repository.GitFlowRepository;
  */
 public class FeatureStartCommand extends AbstractStartCommand {
 
+	/** The name */
+	private String name;
+
 	/**
 	 * Instantiates a new git-flow feature start command.
 	 * 
@@ -16,6 +19,28 @@ public class FeatureStartCommand extends AbstractStartCommand {
 	 */
 	public FeatureStartCommand(GitFlowRepository repo) {
 		super(repo);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getName()
+	 */
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the feature start command
+	 */
+	public FeatureStartCommand setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	/*

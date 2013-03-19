@@ -45,7 +45,7 @@ public class HotfixFinishTestCase {
 
 		// Create hotfix
 		String hotfixName = "v1.0.1";
-		gitFlow.hotfixStart().setName(hotfixName).call();
+		gitFlow.hotfixStart().setVersion(hotfixName).call();
 
 		// Create a commit on hotfix branch
 		String hotfixFile = String.format("hotfixNotes-%s.txt", hotfixName);

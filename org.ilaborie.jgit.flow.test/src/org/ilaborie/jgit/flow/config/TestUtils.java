@@ -142,7 +142,7 @@ public final class TestUtils {
 
 		// Create a release
 		String releaseName = "v1.0.0";
-		gitFlow.releaseStart().setName(releaseName).call();
+		gitFlow.releaseStart().setVersion(releaseName).call();
 
 		// Create a commit on release branch
 		String releaseFile = String.format("ReleaseNotes-%s.txt", releaseName);

@@ -11,6 +11,9 @@ import com.google.common.base.Strings;
  */
 public class ReleaseStartCommand extends AbstractStartCommand {
 
+	/** The version */
+	private String version;
+
 	/**
 	 * Instantiates a new git-flow release start command.
 	 * 
@@ -19,6 +22,34 @@ public class ReleaseStartCommand extends AbstractStartCommand {
 	 */
 	public ReleaseStartCommand(GitFlowRepository repo) {
 		super(repo);
+	}
+
+	/**
+	 * Gets the version.
+	 *
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * Sets the version.
+	 *
+	 * @param version the version
+	 * @return the release start command
+	 */
+	public ReleaseStartCommand setVersion(String version) {
+		this.version = version;
+		return this;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getName()
+	 */
+	@Override
+	protected String getName() {
+		return this.getVersion();
 	}
 
 	/*

@@ -12,9 +12,6 @@ import org.ilaborie.jgit.flow.repository.GitFlowRepository;
  */
 public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 
-	/** The feature name */
-	private String name;
-
 	/**
 	 * Instantiates a new git-flow X start command.
 	 * 
@@ -25,27 +22,6 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 		super(repo);
 	}
 
-	/**
-	 * Sets the name.
-	 * 
-	 * @param name
-	 *            the name
-	 * @return the command
-	 */
-	public AbstractStartCommand setName(String name) {
-		this.name = checkNotNull(name);
-		return this;
-	}
-
-	/**
-	 * Gets the name.
-	 * 
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,12 +29,12 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 	 */
 	@Override
 	public Ref call() throws GitAPIException {
-		checkNotNull(this.name);
+		checkNotNull(this.getName());
 		this.requireGitFlowInitialized();
 
 		// Branch name
 		String prefix = this.getPrefix();
-		String branch = prefix + this.name;
+		String branch = prefix + this.getName();
 
 		// Checkout to source
 		String source = this.getSourceBranch();
@@ -73,6 +49,13 @@ public abstract class AbstractStartCommand extends GitFlowCommand<Ref> {
 		// Checkout
 		return this.checkoutTo(branch);
 	}
+	
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
+	protected abstract String getName();
 
 	/**
 	 * Gets the source branch.

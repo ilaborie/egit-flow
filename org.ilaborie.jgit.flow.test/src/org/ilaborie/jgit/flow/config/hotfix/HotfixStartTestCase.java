@@ -35,7 +35,7 @@ public class HotfixStartTestCase {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
 		String hotfix = "v1.0.1";
-		Ref ref = gitFlow.hotfixStart().setName(hotfix).call();
+		Ref ref = gitFlow.hotfixStart().setVersion(hotfix).call();
 
 		assertNotNull(ref);
 		assertTrue(ref.getName().endsWith(hotfix));
@@ -52,9 +52,9 @@ public class HotfixStartTestCase {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
 		String hotfix = "v1.0.1";
-		gitFlow.hotfixStart().setName(hotfix).call();
+		gitFlow.hotfixStart().setVersion(hotfix).call();
 
-		gitFlow.hotfixStart().setName(hotfix).call();
+		gitFlow.hotfixStart().setVersion(hotfix).call();
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class HotfixStartTestCase {
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
 		String hotfix = "v1.0.1";
-		gitFlow.hotfixStart().setName(hotfix).call();
+		gitFlow.hotfixStart().setVersion(hotfix).call();
 	}
 
 }

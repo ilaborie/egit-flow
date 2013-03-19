@@ -8,6 +8,9 @@ import org.ilaborie.jgit.flow.repository.GitFlowRepository;
  */
 public class HotfixStartCommand extends AbstractStartCommand {
 
+	/** The version. */
+	private String version;
+
 	/**
 	 * Instantiates a new git-flow hotfix start command.
 	 * 
@@ -17,8 +20,41 @@ public class HotfixStartCommand extends AbstractStartCommand {
 	public HotfixStartCommand(GitFlowRepository repo) {
 		super(repo);
 	}
-	
-	/* (non-Javadoc)
+
+	/**
+	 * Gets the version.
+	 * 
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * Sets the version.
+	 * 
+	 * @param version
+	 *            the version
+	 * @return the hotfix start command
+	 */
+	public HotfixStartCommand setVersion(String version) {
+		this.version = version;
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getName()
+	 */
+	@Override
+	protected String getName() {
+		return this.getVersion();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ilaborie.jgit.flow.AbstractStartCommand#getSourceBranch()
 	 */
 	@Override

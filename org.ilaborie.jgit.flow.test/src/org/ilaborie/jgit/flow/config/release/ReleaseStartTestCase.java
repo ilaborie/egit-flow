@@ -35,7 +35,7 @@ public class ReleaseStartTestCase {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
 		String release = "v1.0.0";
-		Ref ref = gitFlow.releaseStart().setName(release).call();
+		Ref ref = gitFlow.releaseStart().setVersion(release).call();
 
 		assertNotNull(ref);
 		assertTrue(ref.getName().endsWith(release));
@@ -52,9 +52,9 @@ public class ReleaseStartTestCase {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
 		String release = "v1.0.0";
-		gitFlow.releaseStart().setName(release).call();
+		gitFlow.releaseStart().setVersion(release).call();
 
-		gitFlow.releaseStart().setName(release).call();
+		gitFlow.releaseStart().setVersion(release).call();
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class ReleaseStartTestCase {
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
 		String release = "v1.0.0";
-		gitFlow.releaseStart().setName(release).call();
+		gitFlow.releaseStart().setVersion(release).call();
 	}
 
 }
