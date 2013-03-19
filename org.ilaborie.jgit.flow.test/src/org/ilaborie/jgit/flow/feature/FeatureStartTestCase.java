@@ -1,4 +1,4 @@
-package org.ilaborie.jgit.flow.config.hotfix;
+package org.ilaborie.jgit.flow.feature;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -7,14 +7,14 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
-import org.ilaborie.jgit.flow.config.TestUtils;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow hotfix start test case.
+ * git-flow feature start test case.
  */
-public class HotfixStartTestCase {
+public class FeatureStartTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -25,7 +25,7 @@ public class HotfixStartTestCase {
 	}
 
 	/**
-	 * Test hotfix start
+	 * Test feature start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -34,15 +34,15 @@ public class HotfixStartTestCase {
 	public void test() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String hotfix = "v1.0.1";
-		Ref ref = gitFlow.hotfixStart().setVersion(hotfix).call();
+		String feature = "feature_A";
+		Ref ref = gitFlow.featureStart().setName(feature).call();
 
 		assertNotNull(ref);
-		assertTrue(ref.getName().endsWith(hotfix));
+		assertTrue(ref.getName().endsWith(feature));
 	}
 
 	/**
-	 * Test hotfix start
+	 * Test feature start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -51,14 +51,14 @@ public class HotfixStartTestCase {
 	public void testBranchExists() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String hotfix = "v1.0.1";
-		gitFlow.hotfixStart().setVersion(hotfix).call();
+		String feature = "feature_A";
+		gitFlow.featureStart().setName(feature).call();
 
-		gitFlow.hotfixStart().setVersion(hotfix).call();
+		gitFlow.featureStart().setName(feature).call();
 	}
 
 	/**
-	 * Test hotfix start with no branch
+	 * Test feature start with no branch
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -67,7 +67,7 @@ public class HotfixStartTestCase {
 	public void testNoName() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		gitFlow.hotfixStart().call();
+		gitFlow.featureStart().call();
 	}
 
 	/**
@@ -81,8 +81,8 @@ public class HotfixStartTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		String hotfix = "v1.0.1";
-		gitFlow.hotfixStart().setVersion(hotfix).call();
+		String feature = "feature_A";
+		gitFlow.featureStart().setName(feature).call();
 	}
 
 }

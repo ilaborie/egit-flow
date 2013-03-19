@@ -1,24 +1,23 @@
-package org.ilaborie.jgit.flow.config.support;
+package org.ilaborie.jgit.flow.hotfix;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
-import org.ilaborie.jgit.flow.config.TestUtils;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow support list test case.
+ * git-flow hotfix list test case.
  */
-public class SupportListTestCase {
+public class HotfixListTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -29,27 +28,25 @@ public class SupportListTestCase {
 	}
 
 	/**
-	 * Test support list
+	 * Test hotfix list
 	 * 
 	 * @throws Exception
 	 *             the exception
 	 */
 	@Test
 	public void test() throws Exception {
-		File tempFile = TestUtils.createGitFlowFeatureRelease();
-		GitFlow gitFlow = GitFlow.open(tempFile);
+		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String base = "v1.0.0";
 		// Create branches
-		List<String> branches = Arrays.asList("v1.1.x", "v1.2.x");
+		List<String> branches = Arrays.asList("v1.0.1", "v1.0.2");
 		for (String branch : branches) {
-			gitFlow.supportStart().setBase(base).setName(branch).call();
+			gitFlow.hotfixStart().setVersion(branch).call();
 		}
 
-		List<String> supports = gitFlow.supportList().call();
+		List<String> hotfixes = gitFlow.hotfixList().call();
 
-		assertNotNull(supports);
-		assertEquals(branches.size(), supports.size());
+		assertNotNull(hotfixes);
+		assertEquals(branches.size(), hotfixes.size());
 		for (String branch : branches) {
 			assertTrue(branches.contains(branch));
 		}
@@ -66,7 +63,7 @@ public class SupportListTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		gitFlow.supportList().call();
+		gitFlow.hotfixList().call();
 	}
 
 }

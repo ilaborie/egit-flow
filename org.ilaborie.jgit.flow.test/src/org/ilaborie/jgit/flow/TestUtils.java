@@ -1,4 +1,4 @@
-package org.ilaborie.jgit.flow.config;
+package org.ilaborie.jgit.flow;
 
 import java.io.File;
 import java.io.IOException;

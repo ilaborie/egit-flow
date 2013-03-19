@@ -1,11 +1,11 @@
-package org.ilaborie.jgit.flow.config.repository;
+package org.ilaborie.jgit.flow.repository;
 
 import static org.junit.Assert.*;
 
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.ilaborie.jgit.flow.config.GitFlowConfig;
-import org.ilaborie.jgit.flow.config.TestUtils;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 import org.junit.AfterClass;
 import org.junit.Test;

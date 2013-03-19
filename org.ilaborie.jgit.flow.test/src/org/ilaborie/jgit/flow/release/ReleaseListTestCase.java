@@ -1,4 +1,4 @@
-package org.ilaborie.jgit.flow.config.feature;
+package org.ilaborie.jgit.flow.release;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -10,14 +10,14 @@ import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
-import org.ilaborie.jgit.flow.config.TestUtils;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow feature list test case.
+ * git-flow release list test case.
  */
-public class FeatureListTestCase {
+public class ReleaseListTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -28,7 +28,7 @@ public class FeatureListTestCase {
 	}
 
 	/**
-	 * Test feature list
+	 * Test release list
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -40,10 +40,10 @@ public class FeatureListTestCase {
 		// Create branches
 		List<String> branches = Arrays.asList("test0", "test1");
 		for (String branch : branches) {
-			gitFlow.featureStart().setName(branch).call();
+			gitFlow.releaseStart().setVersion(branch).call();
 		}
 
-		List<String> features = gitFlow.featureList().call();
+		List<String> features = gitFlow.releaseList().call();
 
 		assertNotNull(features);
 		assertEquals(branches.size(), features.size());
@@ -63,7 +63,7 @@ public class FeatureListTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		gitFlow.featureList().call();
+		gitFlow.releaseList().call();
 	}
 
 }

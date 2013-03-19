@@ -1,15 +1,17 @@
-package org.ilaborie.jgit.flow.config.feature;
+package org.ilaborie.jgit.flow.hotfix;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
-import org.ilaborie.jgit.flow.config.TestUtils;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -17,9 +19,9 @@ import org.junit.Test;
 import com.google.common.io.Files;
 
 /**
- * git-flow feature finish test case.
+ * git-flow hotfix finish test case.
  */
-public class FeatureFinishTestCase {
+public class HotfixFinishTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -30,53 +32,46 @@ public class FeatureFinishTestCase {
 	}
 
 	/**
-	 * Test feature start
+	 * Test hotfix start
 	 * 
 	 * @throws Exception
 	 *             the exception
 	 */
 	@Test
 	public void test() throws Exception {
-		File tempDir = TestUtils.createGitFlowRepositoryAlt();
+		File tempDir = TestUtils.createGitFlowFeatureRelease();
 		GitFlow gitFlow = GitFlow.open(tempDir);
 		GitFlowRepository repository = gitFlow.getRepository();
 
-		// Create Feature A
-		String feature = "feature_A";
-		gitFlow.featureStart().setName(feature).call();
+		// Create hotfix
+		String hotfixName = "v1.0.1";
+		gitFlow.hotfixStart().setVersion(hotfixName).call();
 
-		// Work on feature A
-		String featureFile = "Feature_test.txt";
-		Files.touch(new File(tempDir, featureFile));
-		gitFlow.toGit().add().addFilepattern(featureFile).call();
-		gitFlow.toGit().commit().setMessage("Add a file").call();
+		// Create a commit on hotfix branch
+		String hotfixFile = String.format("hotfixNotes-%s.txt", hotfixName);
+		Files.touch(new File(tempDir, hotfixFile));
+		gitFlow.toGit().add().addFilepattern(hotfixFile).call();
+		gitFlow.toGit().commit().setMessage("Add hotfix notes").call();
 
-		// Move to develop
-		String develop = repository.getDevelopBranch();
-		gitFlow.toGit().checkout().setName(develop).call();
-
-		// Create a commit on develop branch
-		String developFile = "Develop_test.txt";
-		Files.touch(new File(tempDir, developFile));
-		gitFlow.toGit().add().addFilepattern(developFile).call();
-		gitFlow.toGit().commit().setMessage("Add another file").call();
-
-		// Checkout to feature
-		gitFlow.featureCheckout().setName(feature).call();
-
-		// feature finish
-		MergeResult mergeResult = gitFlow.featureFinish().setName(feature)
+		// hotfix finish
+		MergeResult mergeResult = gitFlow.hotfixFinish().setVersion(hotfixName)
 				.call();
 
 		// check merge
 		assertTrue(mergeResult.getMergeStatus().isSuccessful());
 
 		// check branch develop checkout
-		assertEquals(develop, repository.getRepository().getBranch());
+		String developBranch = repository.getDevelopBranch();
+		String branch = repository.getRepository().getBranch();
+		assertEquals(developBranch, branch);
+
+		// check Tag
+		Ref tagRef = repository.getRepository().getTags().get(hotfixName);
+		assertNotNull(tagRef);
 	}
 
 	/**
-	 * Test feature start with no branch
+	 * Test hotfix start with no branch
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -85,7 +80,7 @@ public class FeatureFinishTestCase {
 	public void testNoName() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		gitFlow.featureFinish().call();
+		gitFlow.hotfixFinish().call();
 	}
 
 	/**
@@ -99,12 +94,12 @@ public class FeatureFinishTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		String feature = "feature_A";
-		gitFlow.featureFinish().setName(feature).call();
+		String hotfix = "hotfix_A";
+		gitFlow.hotfixFinish().setVersion(hotfix).call();
 	}
 
 	/**
-	 * Test feature start
+	 * Test hotfix start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -118,8 +113,8 @@ public class FeatureFinishTestCase {
 		gitFlow.toGit().checkout().setName(repository.getDevelopBranch())
 				.call();
 
-		// feature checkout
-		gitFlow.featureFinish().setName("test0").call();
+		// hotfix checkout
+		gitFlow.hotfixFinish().setVersion("test0").call();
 
 	}
 

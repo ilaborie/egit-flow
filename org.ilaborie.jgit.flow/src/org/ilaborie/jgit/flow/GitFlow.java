@@ -13,14 +13,18 @@ import org.eclipse.jgit.util.FS;
 import org.ilaborie.jgit.flow.feature.FeatureCheckoutCommand;
 import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
+import org.ilaborie.jgit.flow.feature.FeaturePublishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
+import org.ilaborie.jgit.flow.feature.FeatureTrackCommand;
 import org.ilaborie.jgit.flow.hotfix.HotfixFinishCommand;
 import org.ilaborie.jgit.flow.hotfix.HotfixListCommand;
 import org.ilaborie.jgit.flow.hotfix.HotfixStartCommand;
 import org.ilaborie.jgit.flow.init.InitCommand;
 import org.ilaborie.jgit.flow.release.ReleaseFinishCommand;
 import org.ilaborie.jgit.flow.release.ReleaseListCommand;
+import org.ilaborie.jgit.flow.release.ReleasePublishCommand;
 import org.ilaborie.jgit.flow.release.ReleaseStartCommand;
+import org.ilaborie.jgit.flow.release.ReleaseTrackCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 import org.ilaborie.jgit.flow.support.SupportListCommand;
 import org.ilaborie.jgit.flow.support.SupportStartCommand;
@@ -156,6 +160,24 @@ public class GitFlow {
 	}
 
 	/**
+	 * git-flow feature publish.
+	 * 
+	 * @return the feature publish command
+	 */
+	public FeaturePublishCommand featurePublish() {
+		return new FeaturePublishCommand(this.repo);
+	}
+
+	/**
+	 * git-flow feature track.
+	 * 
+	 * @return the feature track command
+	 */
+	public FeatureTrackCommand featureTrack() {
+		return new FeatureTrackCommand(this.repo);
+	}
+
+	/**
 	 * git-flow release start.
 	 * 
 	 * @return the release start command
@@ -180,6 +202,24 @@ public class GitFlow {
 	 */
 	public ReleaseFinishCommand releaseFinish() {
 		return new ReleaseFinishCommand(this.repo);
+	}
+
+	/**
+	 * git-flow release publish.
+	 * 
+	 * @return the release publish command
+	 */
+	public ReleasePublishCommand releasePublish() {
+		return new ReleasePublishCommand(this.repo);
+	}
+
+	/**
+	 * git-flow release track.
+	 * 
+	 * @return the release track command
+	 */
+	public ReleaseTrackCommand releaseTrack() {
+		return new ReleaseTrackCommand(this.repo);
 	}
 
 	/**

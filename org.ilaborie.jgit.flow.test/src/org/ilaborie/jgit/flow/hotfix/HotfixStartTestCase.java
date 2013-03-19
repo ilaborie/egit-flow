@@ -1,4 +1,4 @@
-package org.ilaborie.jgit.flow.config.release;
+package org.ilaborie.jgit.flow.hotfix;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -7,14 +7,14 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
-import org.ilaborie.jgit.flow.config.TestUtils;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow release start test case.
+ * git-flow hotfix start test case.
  */
-public class ReleaseStartTestCase {
+public class HotfixStartTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -25,7 +25,7 @@ public class ReleaseStartTestCase {
 	}
 
 	/**
-	 * Test release start
+	 * Test hotfix start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -34,15 +34,15 @@ public class ReleaseStartTestCase {
 	public void test() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String release = "v1.0.0";
-		Ref ref = gitFlow.releaseStart().setVersion(release).call();
+		String hotfix = "v1.0.1";
+		Ref ref = gitFlow.hotfixStart().setVersion(hotfix).call();
 
 		assertNotNull(ref);
-		assertTrue(ref.getName().endsWith(release));
+		assertTrue(ref.getName().endsWith(hotfix));
 	}
 
 	/**
-	 * Test release start
+	 * Test hotfix start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -51,14 +51,14 @@ public class ReleaseStartTestCase {
 	public void testBranchExists() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String release = "v1.0.0";
-		gitFlow.releaseStart().setVersion(release).call();
+		String hotfix = "v1.0.1";
+		gitFlow.hotfixStart().setVersion(hotfix).call();
 
-		gitFlow.releaseStart().setVersion(release).call();
+		gitFlow.hotfixStart().setVersion(hotfix).call();
 	}
 
 	/**
-	 * Test release start with no branch
+	 * Test hotfix start with no branch
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -67,7 +67,7 @@ public class ReleaseStartTestCase {
 	public void testNoName() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		gitFlow.releaseStart().call();
+		gitFlow.hotfixStart().call();
 	}
 
 	/**
@@ -81,8 +81,8 @@ public class ReleaseStartTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		String release = "v1.0.0";
-		gitFlow.releaseStart().setVersion(release).call();
+		String hotfix = "v1.0.1";
+		gitFlow.hotfixStart().setVersion(hotfix).call();
 	}
 
 }

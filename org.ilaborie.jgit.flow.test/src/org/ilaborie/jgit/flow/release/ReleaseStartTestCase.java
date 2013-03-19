@@ -1,4 +1,4 @@
-package org.ilaborie.jgit.flow.config.feature;
+package org.ilaborie.jgit.flow.release;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -7,14 +7,14 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.ilaborie.jgit.flow.GitFlow;
-import org.ilaborie.jgit.flow.config.TestUtils;
+import org.ilaborie.jgit.flow.TestUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * git-flow feature start test case.
+ * git-flow release start test case.
  */
-public class FeatureStartTestCase {
+public class ReleaseStartTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -25,7 +25,7 @@ public class FeatureStartTestCase {
 	}
 
 	/**
-	 * Test feature start
+	 * Test release start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -34,15 +34,15 @@ public class FeatureStartTestCase {
 	public void test() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String feature = "feature_A";
-		Ref ref = gitFlow.featureStart().setName(feature).call();
+		String release = "v1.0.0";
+		Ref ref = gitFlow.releaseStart().setVersion(release).call();
 
 		assertNotNull(ref);
-		assertTrue(ref.getName().endsWith(feature));
+		assertTrue(ref.getName().endsWith(release));
 	}
 
 	/**
-	 * Test feature start
+	 * Test release start
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -51,14 +51,14 @@ public class FeatureStartTestCase {
 	public void testBranchExists() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		String feature = "feature_A";
-		gitFlow.featureStart().setName(feature).call();
+		String release = "v1.0.0";
+		gitFlow.releaseStart().setVersion(release).call();
 
-		gitFlow.featureStart().setName(feature).call();
+		gitFlow.releaseStart().setVersion(release).call();
 	}
 
 	/**
-	 * Test feature start with no branch
+	 * Test release start with no branch
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -67,7 +67,7 @@ public class FeatureStartTestCase {
 	public void testNoName() throws Exception {
 		GitFlow gitFlow = TestUtils.createGitFlowRepository();
 
-		gitFlow.featureStart().call();
+		gitFlow.releaseStart().call();
 	}
 
 	/**
@@ -81,8 +81,8 @@ public class FeatureStartTestCase {
 		Repository repo = TestUtils.createRepositoryWithACommit();
 		GitFlow gitFlow = GitFlow.wrap(repo);
 
-		String feature = "feature_A";
-		gitFlow.featureStart().setName(feature).call();
+		String release = "v1.0.0";
+		gitFlow.releaseStart().setVersion(release).call();
 	}
 
 }
