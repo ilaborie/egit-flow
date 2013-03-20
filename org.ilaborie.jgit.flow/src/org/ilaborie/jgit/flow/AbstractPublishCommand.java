@@ -71,7 +71,7 @@ public abstract class AbstractPublishCommand extends GitFlowCommand<Ref> {
 		String localBranch = prefix + this.getName();
 		this.requireBranchExists(localBranch);
 
-		// Remove branch name
+		// Remote branch name
 		String remoteBranch = this.getRemote() + '/' + prefix + this.getName();
 		this.requireBranchNotExists(remoteBranch);
 
