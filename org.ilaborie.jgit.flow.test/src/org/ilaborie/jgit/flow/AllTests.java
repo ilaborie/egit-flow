@@ -1,6 +1,7 @@
 package org.ilaborie.jgit.flow;
 
 import org.ilaborie.jgit.flow.feature.FeatureCheckoutTestCase;
+import org.ilaborie.jgit.flow.feature.FeatureDiffTestCase;
 import org.ilaborie.jgit.flow.feature.FeatureFinishTestCase;
 import org.ilaborie.jgit.flow.feature.FeatureListTestCase;
 import org.ilaborie.jgit.flow.feature.FeaturePublishTestCase;
@@ -24,7 +25,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ //
-		// General commands
+// General commands
 		GitFlowRepositoryTestCase.class, //
 		InitCommandTestCase.class, //
 
@@ -35,19 +36,20 @@ import org.junit.runners.Suite.SuiteClasses;
 		FeatureFinishTestCase.class, //
 		FeaturePublishTestCase.class, //
 		FeatureTrackTestCase.class, //
-		
+		FeatureDiffTestCase.class, //
+
 		// Releases commands
 		ReleaseStartTestCase.class, //
 		ReleaseListTestCase.class, //
 		ReleaseFinishTestCase.class, //
 		ReleasePublishTestCase.class, //
 		ReleaseTrackTestCase.class, //
-		
+
 		// Hotfixes commands
 		HotfixStartTestCase.class, //
 		HotfixListTestCase.class, //
 		HotfixFinishTestCase.class, //
-		
+
 		// Supports commands
 		SupportStartTestCase.class, //
 		SupportListTestCase.class //

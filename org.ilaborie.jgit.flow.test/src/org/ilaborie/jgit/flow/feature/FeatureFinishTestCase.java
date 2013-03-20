@@ -30,7 +30,7 @@ public class FeatureFinishTestCase {
 	}
 
 	/**
-	 * Test feature start
+	 * Test feature finish
 	 * 
 	 * @throws Exception
 	 *             the exception

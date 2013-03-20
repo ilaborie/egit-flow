@@ -11,6 +11,7 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 import org.ilaborie.jgit.flow.feature.FeatureCheckoutCommand;
+import org.ilaborie.jgit.flow.feature.FeatureDiffCommand;
 import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeaturePublishCommand;
@@ -178,6 +179,15 @@ public class GitFlow {
 	}
 
 	/**
+	 * git-flow feature diff.
+	 * 
+	 * @return the feature diff command
+	 */
+	public FeatureDiffCommand featureDiff() {
+		return new FeatureDiffCommand(this.repo);
+	}
+	
+	/**
 	 * git-flow release start.
 	 * 
 	 * @return the release start command
@@ -185,6 +195,7 @@ public class GitFlow {
 	public ReleaseStartCommand releaseStart() {
 		return new ReleaseStartCommand(this.repo);
 	}
+
 
 	/**
 	 * git-flow release list.
