@@ -19,7 +19,7 @@ import org.ilaborie.jgit.flow.GitFlowCommand;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
 
 /**
- * The git-flow feature checkout command
+ * The git-flow feature diff command
  */
 public class FeatureDiffCommand extends GitFlowCommand<List<DiffEntry>> {
 
@@ -27,7 +27,7 @@ public class FeatureDiffCommand extends GitFlowCommand<List<DiffEntry>> {
 	private String name;
 
 	/**
-	 * Instantiates a new git-flow feature checkout command.
+	 * Instantiates a new git-flow feature diff command.
 	 * 
 	 * @param repo
 	 *            the repository

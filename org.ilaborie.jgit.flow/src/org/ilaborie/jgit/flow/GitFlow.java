@@ -15,6 +15,7 @@ import org.ilaborie.jgit.flow.feature.FeatureDiffCommand;
 import org.ilaborie.jgit.flow.feature.FeatureFinishCommand;
 import org.ilaborie.jgit.flow.feature.FeatureListCommand;
 import org.ilaborie.jgit.flow.feature.FeaturePublishCommand;
+import org.ilaborie.jgit.flow.feature.FeatureRebaseCommand;
 import org.ilaborie.jgit.flow.feature.FeatureStartCommand;
 import org.ilaborie.jgit.flow.feature.FeatureTrackCommand;
 import org.ilaborie.jgit.flow.hotfix.HotfixFinishCommand;
@@ -185,6 +186,15 @@ public class GitFlow {
 	 */
 	public FeatureDiffCommand featureDiff() {
 		return new FeatureDiffCommand(this.repo);
+	}
+
+	/**
+	 * git-flow feature rebase.
+	 * 
+	 * @return the feature rebase command
+	 */
+	public FeatureRebaseCommand featureRebase() {
+		return new FeatureRebaseCommand(this.repo);
 	}
 	
 	/**

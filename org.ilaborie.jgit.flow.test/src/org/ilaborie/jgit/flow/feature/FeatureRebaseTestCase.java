@@ -1,12 +1,11 @@
 package org.ilaborie.jgit.flow.feature;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.List;
 
-import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.api.RebaseResult;
 import org.ilaborie.jgit.flow.GitFlow;
 import org.ilaborie.jgit.flow.TestUtils;
 import org.ilaborie.jgit.flow.repository.GitFlowRepository;
@@ -16,9 +15,9 @@ import org.junit.Test;
 import com.google.common.io.Files;
 
 /**
- * git-flow feature diff test case.
+ * git-flow feature rebase test case.
  */
-public class FeatureDiffTestCase {
+public class FeatureRebaseTestCase {
 
 	/**
 	 * Clean temp repository.
@@ -29,7 +28,7 @@ public class FeatureDiffTestCase {
 	}
 
 	/**
-	 * Test feature diff
+	 * Test feature rebase
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -60,12 +59,12 @@ public class FeatureDiffTestCase {
 		gitFlow.toGit().add().addFilepattern(developFile).call();
 		gitFlow.toGit().commit().setMessage("Add another file").call();
 
-		// feature diff
-		List<DiffEntry> diff = gitFlow.featureDiff().setName(feature).call();
+		// feature rebase
+		RebaseResult result = gitFlow.featureRebase().setName(feature).call();
 
 		// check diff
-		assertNotNull(diff);
-		assertFalse(diff.isEmpty());
+		assertNotNull(result);
+		assertTrue(result.getStatus().isSuccessful());
 	}
 
 }
